@@ -1,5 +1,14 @@
+# Part 1: Architecture and Design
+- [Design document](docs/design-document.md)
+
 # Part 2: Template publish fan-out worker
 
+## To Execute Tests
+
+```bash
+#Requires JDK 25
+./mvnw test
+```
 This repo implements the fan-out worker as a **regional planner plus a bounded regional worker**.
 
 A shared `templatePublished` event is broadcast to every region. Each region uses its own metadata store to find 
