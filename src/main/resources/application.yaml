@@ -1,0 +1,31 @@
+spring:
+  kafka:
+    listener:
+      ack-mode: manual
+      async-acks: true
+      concurrency: 4
+    consumer:
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.caseware.templateupdates.domain
+        spring.json.value.default.type: com.caseware.templateupdates.domain.EngagementWorkItem
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+template-update:
+  kafka:
+    template-published-topic: templatePublished
+    engagement-update-topic: engagementUpdateReview
+    migration-topic: engagementMigration
+    group-id: template-update-worker
+  worker:
+    max-concurrent-engagements: 20
+    reserved-for-users: 5
+    template-update-concurrency: 10
+    migration-concurrency: 5
+    max-attempts: 3
+    retry-topic: engagementReview.retry
+    dead-letter-topic: engagementReview.dlq
